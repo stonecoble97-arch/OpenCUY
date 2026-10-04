@@ -1,6 +1,6 @@
 # Disclaimer
 
-## OpenCUY v2.0 — Modern Engine
+## OpenCUY
 
 ---
 
