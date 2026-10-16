@@ -68,6 +68,23 @@ or terminated as a result.** You are responsible for watching what the
 bot is doing and for making sure it is behaving the way you expect. If
 you cannot monitor it, do not run it.
 
+### Why the Rocholo Javinar filter exists
+
+OpenCUY includes a detector that looks for videos mentioning **Rocholo
+Javinar** (any spelling variation) and flags them with a violet info
+banner. It does not block playback — it just warns you that one showed
+up.
+
+The reason this filter exists: **Rocholo Javinar is a fan of my main
+account.** He makes videos about how many videos are on my livestream
+of his account. The filter is there so I (and anyone running OpenCUY)
+can see when one of his videos shows up in the feed or search results,
+without having to scan for it manually.
+
+The filter is purely informational. It is controlled by the
+`detect_rocholo` toggle in the Config tab, and it can be turned off if
+you do not want it.
+
 ### How to be safe when using this script
 
 There is no way to make automation on YouTube completely safe, but you
@@ -143,29 +160,19 @@ need both.
 
 ### v2.0 — stable release (recommended for most users)
 
-- **File:** `OpenCUY.v2.7.py`
+- **File:** `OpenCUY.v2.0.py`
 - **Status:** Older but **more stable**. Fewer moving parts, well-tested,
   and the version most people should start with.
-- **Filename note:** The file is named `OpenCUY.v2.7.py`, but the
-  **`v2.7` in the filename is a mistake**. The actual version of this
-  code is **v2.0** — the filename was never updated when the script was
-  renamed. The version string inside the code says `OpenCUY v2.0 —
-  Modern Engine`, and that is the authoritative version number.
 
 ### v3.5 — newer release (more features, less stable)
 
-- **File:** `OpenCUY.v3.4.py`
+- **File:** `OpenCUY.v3.5.py`
 - **Status:** Newer build with more features, but **less stable** than
   v2.0. Expect rougher edges and more frequent changes.
-- **Filename note:** The file is named `OpenCUY.v3.4.py`, but the
-  **`v3.4` in the filename is a mistake**. The actual version of this
-  code is **v3.5** — the filename was simply never updated when the
-  script was bumped. The version string inside the code says
-  `OpenCUY v3.5`, and that is the authoritative version number.
 
 > **Which one should I run?** If you want something that just works, use
-> **v2.0** (`OpenCUY.v2.7.py`). If you want the latest features and don't
-> mind occasional bugs, use **v3.5** (`OpenCUY.v3.4.py`). You can keep
+> **v2.0** (`OpenCUY.v2.0.py`). If you want the latest features and don't
+> mind occasional bugs, use **v3.5** (`OpenCUY.v3.5.py`). You can keep
 > both files in the same folder and run whichever you prefer — they share
 > the same config, theme, and screenshot files.
 
@@ -174,7 +181,7 @@ need both.
 ## Changes Between Releases
 
 This section summarizes what changed between the stable v2.0 build
-(`OpenCUY.v2.7.py`) and the newer v3.5 build (`OpenCUY.v3.4.py`). It is
+(`OpenCUY.v2.0.py`) and the newer v3.5 build (`OpenCUY.v3.5.py`). It is
 not a full changelog — just the differences that matter for setup and
 day-to-day use.
 
@@ -249,13 +256,22 @@ start on its own.
 - Block channel-page featured videos (`block_channel_featured`)
 - Mute autoplay on channel pages (`mute_channel_autoplay`)
 - Detect "Rocholo Javinar" videos by spelling-variant pattern
-  (`detect_rocholo`)
+  (`detect_rocholo`) — **see the note below for why this filter
+  exists**
 - Filter live and under-24h cards out of the home feed DOM
   (`filter_home_feed`)
 - Blank the home feed entirely and replace it with a dashboard
   (`blank_home_feed`)
 - Cuss-word title/channel blocking (`probe_clicks`)
 - Mod-lock videos started by moderators (`mod_lock_videos`)
+
+> **About the Rocholo Javinar filter:** Rocholo Javinar is a fan of my
+> main account. He makes videos about how many videos are on my
+> livestream of his account. The filter is purely informational — it
+> flags videos that mention him (any spelling) with a violet banner so
+> I can see when one shows up in the feed or search results. It does
+> not block playback, and it can be turned off with the
+> `detect_rocholo` toggle in the Config tab.
 
 ### Chat and moderation
 
@@ -505,8 +521,8 @@ pip install selenium
 - **Version:** 2024.x or newer
 - **Purpose:** Headless video metadata backend — detects age, live
   status, and 360°/VR projection.
-- **Notes:** **Required for v3.5** (`OpenCUY.v3.4.py`), where it is the
-  only metadata backend. **Not used by v2.0** (`OpenCUY.v2.7.py`), which
+- **Notes:** **Required for v3.5** (`OpenCUY.v3.5.py`), where it is the
+  only metadata backend. **Not used by v2.0** (`OpenCUY.v2.0.py`), which
   does DOM-based metadata detection instead. Installing it is still
   recommended so both scripts work.
 
@@ -700,16 +716,16 @@ The v3.5 release additionally creates:
   cleaner.
 
 Because both releases read and write the same config, theme, and
-screenshot files, you can switch between `OpenCUY.v2.7.py` and
-`OpenCUY.v3.4.py` freely — your settings carry over.
+screenshot files, you can switch between `OpenCUY.v2.0.py` and
+`OpenCUY.v3.5.py` freely — your settings carry over.
 
 ---
 
 ## 8. Ports
 
-- **v2.0 (`OpenCUY.v2.7.py`)** — no network ports. The UI is embedded
+- **v2.0 (`OpenCUY.v2.0.py`)** — no network ports. The UI is embedded
   directly in the Qt window.
-- **v3.5 (`OpenCUY.v3.4.py`)** — binds `127.0.0.1:7000/tcp` for its
+- **v3.5 (`OpenCUY.v3.5.py`)** — binds `127.0.0.1:7000/tcp` for its
   overlay HTTP + SSE server (serves /ui, /log-view, /chat-view,
   /home-dash, /stats-events, /theme-events, and related endpoints). If
   7000 is busy, the OS assigns an ephemeral port and the UI uses that
@@ -723,14 +739,9 @@ screenshot files, you can switch between `OpenCUY.v2.7.py` and
 
 - **Put the scripts in their own folder first.** They generate config,
   theme, and screenshot files in the directory they live in.
-- **Filenames do not match their versions.** `OpenCUY.v2.7.py` is
-  actually **v2.0**, and `OpenCUY.v3.4.py` is actually **v3.5**. Both
-  labels are leftover mistakes that were never corrected. Trust the
-  version string printed in the window title and the log, not the
-  filename.
-- **Prefer v2.0 for stability.** The v2.7 release (`OpenCUY.v2.7.py`)
+- **Prefer v2.0 for stability.** The v2.0 release (`OpenCUY.v2.0.py`)
   is the more stable, well-tested build. The v3.5 release
-  (`OpenCUY.v3.4.py`) has more features but is rougher.
+  (`OpenCUY.v3.5.py`) has more features but is rougher.
 - **Never sign into a Google account in the Selenium window.** The
   Selenium-controlled Chrome window is fully automated. Anything that
   happens in that session is tied to whatever account is signed in, and
@@ -745,6 +756,13 @@ screenshot files, you can switch between `OpenCUY.v2.7.py` and
   visible to everyone watching. **The channel termination mentioned in
   the Disclaimer happened while livestreaming.** Watch the bot
   constantly if you livestream with it.
+- **The Rocholo Javinar filter is informational only.** Rocholo Javinar
+  is a fan of my main account and makes videos about how many videos
+  are on my livestream of his account. The filter flags videos that
+  mention him with a violet banner — it does not block playback. It can
+  be turned off with the `detect_rocholo` toggle in the Config tab. See
+  "Why the Rocholo Javinar filter exists" in the Disclaimer at the top
+  of this document.
 - **v3.5 theme injection into YouTube can break the page.** When
   `theme_youtube_bg` is enabled, the injected `<style>` tag may cause
   elements to disappear, the player to fail to render, or the page to
@@ -824,13 +842,13 @@ source .venv/bin/activate
 **Run the stable release (recommended):**
 
 ```
-python OpenCUY.v2.7.py
+python OpenCUY.v2.0.py
 ```
 
 **Or run the newer release:**
 
 ```
-python OpenCUY.v3.4.py
+python OpenCUY.v3.5.py
 ```
 
 Expected startup sequence in the log (v2.0 shown; v3.5 is similar):
